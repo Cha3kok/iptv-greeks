@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <!-- Icon mark: play button in rounded square -->
+  <rect width="48" height="48" rx="12" fill="white" fill-opacity="0.2"/>
+  <polygon points="18,12 18,36 38,24" fill="white"/>
+
+  <!-- "IPTV" text -->
+  <text x="58" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="22" fill="#34d399">IPTV</text>
+
+  <!-- "Greek" text -->
+  <text x="108" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="22" fill="white">Greek</text>
+</svg>
