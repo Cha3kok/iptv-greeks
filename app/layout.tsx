@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -103,6 +104,7 @@ export default function RootLayout({
         <CookieBanner />
         <ExitIntent />
         <SocialProof />
+        <Analytics />
       </body>
     </html>
   );
