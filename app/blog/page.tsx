@@ -4,6 +4,8 @@ import path from 'path'
 import matter from 'gray-matter'
 import BlogSearch from '@/components/BlogSearch'
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: 'Ιστολόγιο IPTV Greek – Οδηγοί & Νέα',
   description: 'Οδηγοί ρύθμισης, συμβουλές και νέα για IPTV. Μάθετε πώς να ρυθμίσετε και να βελτιστοποιήσετε την IPTV εμπειρία σας.',

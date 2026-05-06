@@ -5,6 +5,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import ShareButtons from "@/components/ShareButtons";
 import TableOfContents from "@/components/TableOfContents";
 import ScrollProgress from "@/components/ScrollProgress";
@@ -94,6 +95,77 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+export const dynamicParams = true;
+
+const mdxComponents = {
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <img className="w-full rounded-2xl my-8 object-cover max-h-96" {...props} />
+  ),
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 className="text-xl font-bold text-[#1e293b] mt-10 mb-3" {...props} />
+  ),
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3 className="text-lg font-semibold text-[#1e293b] mt-8 mb-2" {...props} />
+  ),
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="text-slate-600 leading-8 text-[1.05rem] mb-4" {...props} />
+  ),
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className="list-disc list-inside space-y-2 text-slate-600 text-[1.05rem] mb-4 ml-2" {...props} />
+  ),
+  ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => (
+    <ol className="list-decimal list-inside space-y-2 text-slate-600 text-[1.05rem] mb-4 ml-2" {...props} />
+  ),
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className="leading-7" {...props} />
+  ),
+  strong: (props: React.HTMLAttributes<HTMLElement>) => (
+    <strong className="text-[#1e293b] font-semibold" {...props} />
+  ),
+  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a className="text-[#059669] hover:text-emerald-700 underline underline-offset-2 transition-colors" {...props} />
+  ),
+  blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote className="border-l-4 border-emerald-500 pl-4 my-6 text-slate-500 italic" {...props} />
+  ),
+  hr: () => <hr className="border-slate-200 my-8" />,
+  code: (props: React.HTMLAttributes<HTMLElement>) => (
+    <code className="bg-slate-100 text-emerald-700 text-sm px-1.5 py-0.5 rounded font-mono" {...props} />
+  ),
+  table: (props: React.HTMLAttributes<HTMLTableElement>) => (
+    <div className="overflow-x-auto my-8 rounded-xl border border-slate-200">
+      <table className="w-full text-sm border-collapse" {...props} />
+    </div>
+  ),
+  thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <thead className="bg-slate-50" {...props} />
+  ),
+  tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <tbody {...props} />
+  ),
+  tr: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
+    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors" {...props} />
+  ),
+  th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
+    <th className="text-left py-3 px-4 text-[#059669] font-semibold text-sm whitespace-nowrap" {...props} />
+  ),
+  td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+    <td className="py-3 px-4 text-slate-600 text-sm" {...props} />
+  ),
+  CTA: ({ href, children }: { href: string; children: React.ReactNode }) => (
+    <div className="my-8 bg-[#059669] text-white rounded-2xl p-6 text-center">
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block bg-white text-[#059669] font-bold px-8 py-3 rounded-full hover:bg-emerald-50 transition-colors text-sm"
+      >
+        {children}
+      </a>
+    </div>
+  ),
+};
+
 export async function generateStaticParams() {
   const dir = path.join(process.cwd(), "content", "blog");
   try {
@@ -167,7 +239,7 @@ export default async function BlogPostPage({ params }: Props) {
         </h1>
 
         <article className="prose prose-slate max-w-none">
-          <MDXRemote source={post.content} />
+          <MDXRemote source={post.content} components={mdxComponents} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
         </article>
 
         {/* Share */}
